@@ -17,4 +17,4 @@ db.then(() => {
   console.error(color(`Error: ${e}\nGagal connect ke database`, 'red'));
 });
 
-module.exports = db;
+module.exports = db
