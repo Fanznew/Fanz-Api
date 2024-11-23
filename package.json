@@ -12,8 +12,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "vercel dev",
-    "build": "vercel build",  // Added build command
-    "deploy": "vercel --prod" // Optional: command to deploy to production directly
+    "build": "vercel build",
+    "deploy": "vercel --prod"
   },
   "author": "Fanz",
   "license": "ISC",
