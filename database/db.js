@@ -1,20 +1,20 @@
-const monk = require('monk');
-const { color } = require('../lib/color');
+var url = process.env.DB_URL || '';
+var db = null;
 
-// Mendapatkan URL database dari environment variables
-const url = process.env.DB_URL;
-
-if (!url) {
-  console.error(color('Cek konfigurasi database, DB_URL belum diatur', 'red'));
-  process.exit(1);
+if (url === '') {
+    console.log(color('Peringatan: DB_URL belum diatur, aplikasi akan berjalan tanpa database', 'yellow'));
+} else {
+    db = monk(url); // Koneksi ke database hanya jika URL ada
 }
 
-const db = monk(url);
+if (db) {
+    db.then(() => {
+        console.log(color('Connected correctly to server', 'green'));
+    }).catch((e) => {
+        console.log(color('Error connecting to database: ' + e, 'red'));
+    });
+} else {
+    console.log(color('Aplikasi berjalan tanpa koneksi ke database', 'blue'));
+}
 
-db.then(() => {
-  console.log(color('Connected correctly to server, FanzOffc', 'green'));
-}).catch((e) => {
-  console.error(color(`Error: ${e}\nGagal connect ke database`, 'red'));
-});
-
-module.exports = db
+module.exports = db;
