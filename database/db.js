@@ -1,20 +1,22 @@
-var url = process.env.DB_URL || '';
-var db = null;
+var __path = process.cwd(),
+      monk = require('monk'),
+     { color } = require(__path + '/lib/color.js')
 
-if (url === '') {
-    console.log(color('Peringatan: DB_URL belum diatur, aplikasi akan berjalan tanpa database', 'yellow'));
-} else {
-    db = monk(url); // Koneksi ke database hanya jika URL ada
-}
+// Connection URL
+var url = '';
+try {
+if(url == '') throw console.log(color('Cek konfigurasi database, var url belum diisi','red'));
+} catch (e) {
+	return;
+	}
+var db = monk(url);
 
-if (db) {
-    db.then(() => {
-        console.log(color('Connected correctly to server', 'green'));
-    }).catch((e) => {
-        console.log(color('Error connecting to database: ' + e, 'red'));
-    });
-} else {
-    console.log(color('Aplikasi berjalan tanpa koneksi ke database', 'blue'));
-}
+db.then(() => {
+  console.log(color('Connected correctly to server, FanzOffc','green'))
+})
+.catch ((e) => {
+	console.log(color('Error : '+ e +'\n\nGagal connect ke database, \ncek configurasi database apakah Connection URL sudah benar','red'))
+	})
 
-module.exports = db;
+
+module.exports = db
